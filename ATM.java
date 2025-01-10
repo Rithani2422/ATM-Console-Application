@@ -10,14 +10,8 @@ import java.util.Scanner;   // Importing Scanner for taking user input
 public class ATM {
     // Declares the 'ATM' class, which contains the logic for the ATM system
 
-    static ArrayList<User> users = new ArrayList<>();
-    // Static list to store all registered users in the ATM system
-
     static ArrayList<Notes> notes = new ArrayList<>();
     // Static list to store all the denominations of notes and their counts
-
-    static ArrayList<Admin> admins = new ArrayList<>();
-    // Static list to store all the admins of the ATM system
 
     static ArrayList<Account> accounts = new ArrayList<>();
     // Static list to store all the accounts (both users and admins) in the ATM system
@@ -36,9 +30,8 @@ public class ATM {
 
         Scanner scanner = new Scanner(System.in);
         // Creates a Scanner object to read user input
-
-        admins.add(new Admin("admin1", "password123"));  // Adds a default admin with username "admin1" and password "password123"
-        ATM.getAccounts().add(admins.get(0));  // Adds the default admin to the accounts list
+        accounts.add(new Admin("admin1", "password123"));  // Adds a default admin with username "admin1" and password "password123"
+        ATM.getAccounts().add(accounts.get(0));  // Adds the default admin to the accounts list
 
         initializeNotes();  // Calls the method to initialize the notes (ATM cash denominations)
 
@@ -202,16 +195,16 @@ public class ATM {
         return null;  // Returns null if login fails after all attempts
     }
 
-    static User findUserByUsername(String username) {
+    static Account findUserByUsername(String username) {
         // Method to find a user by their username
 
-        for (User user : users) {
+        for (Account account : accounts) {
             // Loop through the list of users
 
-            if (user.getUsername().equals(username)) {
+            if (account.getUsername().equals(username)) {
                 // Checks if the username matches
 
-                return user;  // Returns the matched user
+                return account;  // Returns the matched user
             }
         }
 
@@ -267,10 +260,10 @@ public class ATM {
         return true;  // Successful withdrawal
     }
 
-    public static ArrayList<User> getUsers() {
+    public static ArrayList<Account> getUsers() {
         // Method to retrieve the list of users
 
-        return users;  // Returns the list of users
+        return accounts;  // Returns the list of users
     }
 
     // Getter method for accounts
