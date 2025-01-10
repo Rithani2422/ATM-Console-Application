@@ -83,7 +83,7 @@ public class AdminActions {
         System.out.print("Enter Username to delete: ");
         String username = scanner.nextLine();  // Prompt for the username of the user to delete
 
-        User userToRemove = ATM.findUserByUsername(username);  // Find the user by username
+        Account userToRemove = ATM.findUserByUsername(username);  // Find the user by username
 
         if (userToRemove != null) {
             ATM.getUsers().remove(userToRemove);  // Remove user from the list of users
@@ -247,7 +247,6 @@ public class AdminActions {
         admin.getTransactionHistory().add(transaction);  // Add to admin’s history
     }
 }
-
 
 
 
