@@ -1,8 +1,8 @@
+import Notes.Notes;
 import ListOfNotes.Notes100;
 import ListOfNotes.Notes200;
 import ListOfNotes.Notes2000;
 import ListOfNotes.Notes500;
-import Notes.Notes;
 
 import java.util.ArrayList;  // Importing ArrayList for collection handling
 import java.util.Scanner;   // Importing Scanner for taking user input
@@ -47,32 +47,25 @@ public class ATM {
             int login = Integer.parseInt(scanner.nextLine());  // Reads the user's choice and converts it to an integer
 
             if (login == 1) {
-                // If Admin login is chosen
-                Admin loggedInAdmin = adminLogin(scanner, accounts);  // Calls the adminLogin method to authenticate the admin
-
-                if (loggedInAdmin != null) {
-                    // If login is successful, proceed to admin actions
-                    String Username = loggedInAdmin.getUsername();
-                    System.out.println("Logged in as " + Username);
-                    AdminActions.adminActions(scanner, loggedInAdmin);  // Calls the admin actions with the logged-in admin
+                Account adminAccount = adminLogin(scanner, accounts);
+                if (adminAccount != null) {
+                    Admin loggedInAdmin = (Admin) adminAccount;
+                    System.out.println("Logged in as " + loggedInAdmin.getUsername());
+                    AdminActions.adminActions(scanner, loggedInAdmin);
                 } else {
-                    System.out.println("Returning to main menu...");
-                    // If login fails, return to the main menu
+                    System.out.println("Admin login failed. Returning to main menu...");
                 }
-
             } else if (login == 2) {
-                // If User login is chosen
-                User loggedInUser = userLogin(scanner, accounts);  // Calls the userLogin method to authenticate the user
-
-                if (loggedInUser != null) {
-                    // If login is successful, proceed to user actions
+                Account userAccount = userLogin(scanner, accounts);
+                if (userAccount != null) {
+                    User loggedInUser = (User) userAccount;
                     UserActions.userActions(scanner, loggedInUser);
                 } else {
-                    System.out.println("Returning to main menu...");
-                    // If login fails, return to the main menu
+                    System.out.println("User login failed. Returning to main menu...");
                 }
+            }
 
-            } else if (login == 3) {
+         else if (login == 3) {
                 // If Exit option is chosen
                 System.out.println("Exiting the program.");
                 break;  // Breaks out of the infinite loop to terminate the program
@@ -83,116 +76,89 @@ public class ATM {
         }
     }
 
-    public static Admin adminLogin(Scanner scanner, ArrayList<Account> accounts) {
-        // Method to handle admin login functionality
-
+    public static Account adminLogin(Scanner scanner, ArrayList<Account> accounts) {
         System.out.print("Enter Admin Username: ");
-        // Prompt the admin to enter their username
-
         String username = scanner.nextLine();
-        // Reads the username input
 
+        // Find the matching admin account
         Admin matchedAdmin = null;
-        // Initializes a variable to store the matched admin
-
-        // Loop through all accounts to find if an admin exists with the given username
         for (Account ac : accounts) {
-            if (ac instanceof Admin) {  // Check if the account is an instance of Admin
-                Admin admin = (Admin) ac;  // Cast Account to Admin
+            if (ac instanceof Admin) {
+                Admin admin = (Admin) ac;
                 if (admin.getUsername().equals(username)) {
-                    matchedAdmin = admin;  // Match found, store the admin
-                    break;  // Exit the loop once a match is found
+                    matchedAdmin = admin;
+                    break;
                 }
             }
         }
 
         if (matchedAdmin == null) {
             System.out.println("Invalid username. Returning to login choice.");
-            return null;  // Return null if no matching admin is found
+            return null; // Login failed due to invalid username
         }
 
-        int attempts = 3;  // Number of login attempts
-
+        int attempts = 3; // Allow up to 3 password attempts
         while (attempts > 0) {
             System.out.print("Enter Admin Password: ");
-            // Prompt admin to enter their password
-
             String password = scanner.nextLine();
-            // Reads the password input
 
             if (matchedAdmin.getPassword().equals(password)) {
-                // If password matches, grant access
                 System.out.println("Admin login successful!");
-                return matchedAdmin;  // Returns the logged-in admin object
+                return matchedAdmin; // Login successful
             }
 
-            attempts--;  // Decrement attempts
+            attempts--;
             if (attempts > 0) {
                 System.out.println("Incorrect password. Attempts remaining: " + attempts);
-                // Shows remaining attempts
             } else {
                 System.out.println("Too many failed attempts. Returning to login choice.");
-                // After 3 failed attempts, show failure message
             }
         }
 
-        return null;  // Returns null if login fails after all attempts
+        return null; // Login failed due to incorrect password
     }
 
-    public static User userLogin(Scanner scanner, ArrayList<Account> accounts) {
-        // Method to handle user login functionality
 
+    public static Account userLogin(Scanner scanner, ArrayList<Account> accounts) {
         System.out.print("Enter Username: ");
-        // Prompt the user to enter their username
-
         String username = scanner.nextLine();
-        // Reads the username input
 
+        // Find the matching user account
         User matchedUser = null;
-        // Initializes a variable to store the matched user
-
-        // Loop through all accounts to find if a user exists with the given username
         for (Account ac : accounts) {
-            if (ac instanceof User) {  // Check if the account is an instance of User
-                User user = (User) ac;  // Cast Account to User
+            if (ac instanceof User) {
+                User user = (User) ac;
                 if (user.getUsername().equals(username)) {
-                    matchedUser = user;  // Match found, store the user
-                    break;  // Exit the loop once a match is found
+                    matchedUser = user;
+                    break;
                 }
             }
         }
 
         if (matchedUser == null) {
             System.out.println("Invalid username. Returning to login choice.");
-            return null;  // Return null if no matching user is found
+            return null; // Login failed due to invalid username
         }
 
-        int attempts = 3;  // Number of login attempts
-
+        int attempts = 3; // Allow up to 3 password attempts
         while (attempts > 0) {
             System.out.print("Enter Password: ");
-            // Prompt user to enter their password
-
             String password = scanner.nextLine();
-            // Reads the password input
 
             if (matchedUser.getPassword().equals(password)) {
-                // If password matches, grant access
                 System.out.println("User login successful!");
-                return matchedUser;  // Returns the logged-in user object
+                return matchedUser; // Login successful
             }
 
-            attempts--;  // Decrement attempts
+            attempts--;
             if (attempts > 0) {
                 System.out.println("Incorrect password. Attempts remaining: " + attempts);
-                // Shows remaining attempts
             } else {
                 System.out.println("Too many failed attempts. Returning to login choice.");
-                // After 3 failed attempts, show failure message
             }
         }
 
-        return null;  // Returns null if login fails after all attempts
+        return null; // Login failed due to incorrect password
     }
 
     static Account findUserByUsername(String username) {
@@ -271,6 +237,9 @@ public class ATM {
         return accounts;  // Returns the list of accounts (both users and admins)
     }
 }
+
+
+
 
 
 
