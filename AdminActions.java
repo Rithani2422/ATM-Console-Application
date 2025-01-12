@@ -1,10 +1,11 @@
+import Notes.Notes;
 import ListOfNotes.Notes100;
 import ListOfNotes.Notes200;
 import ListOfNotes.Notes2000;
 import ListOfNotes.Notes500;
-import Notes.Notes;
-import java.util.Scanner;
 
+import java.util.Scanner;
+import java.util.ArrayList;
 public class AdminActions {
 
     // Method to display the admin menu and handle admin actions
@@ -157,19 +158,22 @@ public class AdminActions {
     public static void viewAllTransactionHistory() {
         boolean foundTransactions = false;
 
-        // Iterate over all accounts and print transaction histories for user accounts
+        // Iterate over all accounts to process transaction histories for user accounts
         for (Account account : ATM.getAccounts()) {
-            if (account instanceof User) {  // Process only user accounts
+            if (account instanceof User) { // Process only user accounts
                 User user = (User) account;
                 System.out.println("Transaction History for User: " + user.getUsername());
 
-                if (user.getTransactionHistory().isEmpty()) {
-                    System.out.println("No transactions found for user.");
+                // Retrieve the user's transaction history
+                ArrayList<Transaction> userTransactions = user.getTransactionHistory();
+
+                if (userTransactions.isEmpty()) {
+                    System.out.println("No transactions found for this user.");
                 } else {
                     boolean hasUserTransactions = false;
 
-                    // Iterate through user transactions and only display those performed by the user
-                    for (Transaction transaction : user.getTransactionHistory()) {
+                    // Use a simple counter to ensure each transaction is printed once
+                    for (Transaction transaction : userTransactions) {
                         if (transaction.getPerformedBy().equals(user.getUsername())) {
                             System.out.println("Performed By: " + transaction.getPerformedBy());
                             System.out.println("Type: " + transaction.getType());
@@ -178,7 +182,6 @@ public class AdminActions {
                         }
                     }
 
-                    // If no transactions were found, print a message
                     if (!hasUserTransactions) {
                         System.out.println("No transactions performed by this user.");
                     }
@@ -187,11 +190,11 @@ public class AdminActions {
             }
         }
 
-        // If no transactions were found for users, print a message
         if (!foundTransactions) {
             System.out.println("No transactions found for users.");
         }
     }
+
 
     // Method to view the admin's own transaction history
     public static void viewAdminTransactionHistory(Admin admin) {
