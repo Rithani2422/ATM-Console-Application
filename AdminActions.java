@@ -15,32 +15,37 @@ public class AdminActions {
             System.out.println("\nAdmin Menu:");
             System.out.println("1. Add User Account");
             System.out.println("2. Delete User Account");
-            System.out.println("3. View All Transaction Histories");
-            System.out.println("4. Deposit to ATM");
+            System.out.println("3. View All Users' Transaction Histories");
+            System.out.println("4. View Specific User's Transaction History");
             System.out.println("5. View Admin Transactions");
-            System.out.println("6. Logout");
+            System.out.println("6. Deposit to ATM");
+            System.out.println("7. Logout");
+
 
             System.out.print("Choose an option: ");
             int choice = Integer.parseInt(scanner.nextLine());  // Read and parse user choice
 
             switch (choice) {
                 case 1:
-                    addUserAccount(scanner, admin);  // Add a new user account
+                    addUserAccount(scanner, admin);
                     break;
                 case 2:
-                    deleteUserAccount(scanner);  // Delete a user account
+                    deleteUserAccount(scanner);
                     break;
                 case 3:
-                    viewAllTransactionHistory();  // View transaction histories of all users
+                    viewAllTransactionHistory();
                     break;
                 case 4:
-                    depositToATM(scanner, admin);  // Deposit money to the ATM
+                    viewSpecificUserTransactionHistory(scanner);
                     break;
                 case 5:
-                    viewAdminTransactionHistory(admin);  // View the admin's transaction history
+                    viewAdminTransactionHistory(admin);
                     break;
                 case 6:
-                    System.out.println("Logging out...");  // Logout and exit
+                    depositToATM(scanner, admin);
+                    break;
+                case 7:
+                    System.out.println("Logging out...");
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -49,7 +54,7 @@ public class AdminActions {
         }
     }
 
-    // Method to add a user account
+            // Method to add a user account
     private static void addUserAccount(Scanner scanner, Admin admin) {
         System.out.print("Enter Username: ");
         String username = scanner.nextLine();  // Prompt the admin to enter a username
@@ -194,6 +199,51 @@ public class AdminActions {
             System.out.println("No transactions found for users.");
         }
     }
+    // Method to view the transaction history of a specific user
+    public static void viewSpecificUserTransactionHistory(Scanner scanner) {
+        System.out.print("Enter Username to view transactions: ");
+        String username = scanner.nextLine(); // Get the username from the admin
+
+        // Find the user account with the given username
+        Account user = ATM.findUserByUsername(username);
+
+        // Check if the user exists and is an instance of User
+        if (user != null && user instanceof User) {
+            User specificUser = (User) user; // Cast the account to User
+            System.out.println("Transaction History for User: " + specificUser.getUsername());
+
+            // Get the user's transaction history
+            ArrayList<Transaction> userTransactions = specificUser.getTransactionHistory();
+
+            // Display transactions if any exist
+            if (userTransactions.isEmpty()) {
+                System.out.println("No transactions found for this user.");
+            } else {
+                boolean hasUserTransactions = false; // Flag to check if there are any transactions by the user
+                for (Transaction transaction : userTransactions) {
+                    // Display only transactions performed by this user
+                    if (transaction.getPerformedBy().equals(specificUser.getUsername())) {
+                        System.out.println("Performed By: " + transaction.getPerformedBy());
+                        System.out.println("Type: " + transaction.getType());
+                        System.out.println("Amount: " + transaction.getAmount());
+                        System.out.println("-------------------------------");
+                        hasUserTransactions = true;
+                    }
+                }
+
+                // If no transactions were performed by the user, print a message
+                if (!hasUserTransactions) {
+                    System.out.println("No transactions performed by this user.");
+                }
+            }
+        } else {
+            // User not found or invalid type
+            System.out.println("User not found.");
+        }
+    }
+
+
+
 
 
     // Method to view the admin's own transaction history
@@ -250,6 +300,8 @@ public class AdminActions {
         admin.getTransactionHistory().add(transaction);  // Add to admin’s history
     }
 }
+
+
 
 
 
