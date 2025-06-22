@@ -1,3 +1,5 @@
+ATM CONSOLE APPLICATION
+
 The ATM Console Application is a Java-based simulation of a basic Automated Teller Machine (ATM) system. This project is designed to replicate real-world banking functionalities such as account balance checking, money deposit, withdrawals, and transaction history — all through a secure and interactive command-line interface.
 
 Built using Object-Oriented Programming (OOP) concepts, the application focuses on clean code structure, secure transaction handling, and user-friendly navigation. It serves as a practical learning project for understanding how backend banking systems operate and how user interactions can be managed effectively through Java.
