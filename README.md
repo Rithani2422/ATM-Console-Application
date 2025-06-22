@@ -9,7 +9,7 @@ This Java console application simulates an ATM system, allowing users to perform
 
 ## 🎬 Demo Video
 
-▶️ [Click to play the ATM demo video](https://github.com/Rithani2422/ATM-Console-Application/raw/main/Demo(ATM).mp4)
+https://github.com/user-attachments/assets/dd7eba40-3f2e-4284-a10b-e3a81e193ead
 
 
 ## Features
