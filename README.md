@@ -55,20 +55,12 @@ https://github.com/user-attachments/assets/39c1c211-623c-47a0-b28b-7017d6184395
 
 ## Installation
 
-### Step 1: Clone the Repository
-
-Clone the GitHub repository to your local machine using the following command:
-
-```bash
-git clone https://github.com/BubalanShanmugam/ATM.git
-```
-
-*step 2: Compile the application:*
+### *step 1: Compile the application:*
 ```bash
 javac ATM.java
 ```
 
-*step 3:  Run the application:*
+*step 2:  Run the application:*
 ```bash   
 java ATM
 ```
